@@ -1,36 +1,21 @@
-\# First Pipeline Challenge
+# First Pipeline Challenge
 
+![CI/CD Pipeline](https://github.com/YOUR_USERNAME/first-pipeline/workflows/CI%2FCD%20Pipeline/badge.svg)
 
+Live deployment: [YOUR_DEPLOYED_URL]
 
-!\[CI/CD Pipeline](https://github.com/YOUR\_USERNAME/first-pipeline/workflows/CI%2FCD%20Pipeline/badge.svg)
-
-
-
-Live deployment: \[YOUR\_DEPLOYED\_URL]
-
-
-
-\## About
+## About
 
 Week 4 Boiler Room Hackathon - Building a complete CI/CD pipeline.
 
-
-
-\## Architecture
+## Architecture
 
 ```
-
 Code Push → GitHub Actions → Tests → Docker Build → Trivy Scan → Deploy
-
 ```
 
-
-
-\## Status
+## Status
 
 ✓ All tests passing
-
 ✓ Security scan complete
-
 ✓ Deployed to production
-
