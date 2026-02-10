@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build Docker image
+        run: docker build -t first-pipeline:latest .
+
+      - name: Run Trivy security scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'first-pipeline:latest'
+          format: 'table'
+          exit-code: '0'  # Satt till 0 så den inte failar på vulnerabilities
+
+      
+
+
+# TODO: Add your steps here
+      # - Install dependencies
+      # - Run tests
+      # - Build Docker image
+      # - Scan with Trivy
+      # - Deploy to hosting service
