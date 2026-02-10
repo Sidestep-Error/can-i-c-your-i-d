@@ -30,13 +30,13 @@ app.get('/health', (req, res) => {
 });
 
 // Status endpoint - enkel
+//app.get('/status', (req, res) => {
+  //res.json({
+    //status: 'ok',
+    //timestamp: new Date().toISOString()
+ //});
+//});
 app.get('/status', (req, res) => {
-  res.json({
-    status: 'ok',
-    timestamp: new Date().toISOString()
-  });
-});
-app.get('/secret', (req, res) => {
   res.type('text/plain').send(`You found the secret! Well done!
 
          ,;;;, ,;;;,
