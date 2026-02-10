@@ -13,9 +13,10 @@ Week 4 Boiler Room Hackathon - Building a complete CI/CD pipeline.
 ```
 Code Push → GitHub Actions → Tests → Docker Build → Trivy Scan → Deploy
 ```
-
 ## Status
 
 ✓ All tests passing
 ✓ Security scan complete
 ✓ Deployed to production
+
+Not everything is in plain sight, there are some secrets at the end ^^

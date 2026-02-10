@@ -8,6 +8,17 @@ app.get('/status', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+app.get('/secret', (req, res) => {
+  res.type('text/plain').send(`You found the secret! Well done!
+
+         ,;;;, ,;;;,
+        ;;;' ';' ';;;
+        ;;;       ;;;
+         ';;,   ,;;'
+           ';;,;;'
+             ';'` );
+});
+
 
 app.get('/', (req, res) => {
   res.send('First Pipeline Challenge - Week 4');
