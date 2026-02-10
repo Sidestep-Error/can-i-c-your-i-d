@@ -1,48 +1,75 @@
 const http = require('http');
+const app = require('./index.js');
 
-function test() {
-  const options = {
-    hostname: 'localhost',
-    port: 3000,
-    path: '/status',
-    method: 'GET'
-  };
+function requestJson(port, path) {
+  return new Promise((resolve, reject) => {
+    const req = http.request(
+      {
+        hostname: '127.0.0.1',
+        port,
+        path,
+        method: 'GET',
+        timeout: 5000
+      },
+      (res) => {
+        let data = '';
 
-  console.log('Running tests...');
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
 
-  const req = http.request(options, (res) => {
-    let data = '';
-    res.on('data', (chunk) => { data += chunk; });
-    res.on('end', () => {
-      try {
-        const json = JSON.parse(data);
-        if (json.status === 'ok') {
-          console.log('✓ Status endpoint test passed');
-          process.exit(0);
-        } else {
-          console.log('✗ Status endpoint returned wrong data');
-          process.exit(1);
-        }
-      } catch (e) {
-        console.log('✗ Invalid JSON response');
-        process.exit(1);
+        res.on('end', () => {
+          try {
+            resolve({ statusCode: res.statusCode, json: JSON.parse(data) });
+          } catch {
+            reject(new Error(`Invalid JSON response from ${path}: ${data}`));
+          }
+        });
       }
+    );
+
+    req.on('timeout', () => {
+      req.destroy(new Error(`Request timed out for ${path}`));
     });
-  });
 
-  req.on('error', (e) => {
-    console.log('✗ Connection failed:', e.message);
-    process.exit(1);
-  });
+    req.on('error', (err) => {
+      reject(new Error(`Connection failed for ${path}: ${err.message}`));
+    });
 
-  req.end();
+    req.end();
+  });
 }
 
-// Start server, run test, then exit
-const app = require('./index.js');
-const server = app.listen(3000, () => {
-  setTimeout(() => {
-    test();
-    setTimeout(() => server.close(), 1000);
-  }, 500);
+async function runTests(port) {
+  const statusRes = await requestJson(port, '/status');
+  if (statusRes.statusCode !== 200 || statusRes.json.status !== 'ok') {
+    throw new Error('Status endpoint returned wrong data');
+  }
+
+  const secretRes = await requestJson(port, '/secret');
+  if (secretRes.statusCode !== 200 || !secretRes.json.message) {
+    throw new Error('Secret endpoint missing message field');
+  }
+}
+
+console.log('Running tests...');
+const server = app.listen(0, async () => {
+  const address = server.address();
+  const port = address && typeof address === 'object' ? address.port : null;
+
+  if (!port) {
+    console.error('Test failed: could not determine test server port');
+    server.close(() => process.exit(1));
+    return;
+  }
+
+  try {
+    await runTests(port);
+    console.log('Status endpoint test passed');
+    console.log('Secret endpoint test passed');
+    server.close(() => process.exit(0));
+  } catch (err) {
+    console.error(`Test failed: ${err.message}`);
+    server.close(() => process.exit(1));
+  }
 });
