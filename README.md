@@ -1,6 +1,6 @@
 # First Pipeline Challenge - Silver & Gold Edition 🥈🥇
 
-![CI](https://github.com/Sidestep-Error/can-i-c-your-i-d/actions/workflows/ci.yml/badge.svg?branch=main)
+[![CI/CD Pipeline](https://github.com/Sidestep-Error/can-i-c-your-i-d/actions/workflows/pipeline.yml/badge.svg)](https://github.com/Sidestep-Error/can-i-c-your-i-d/actions/workflows/pipeline.yml)
 
 **Live Environments:**
 - Production: [https://can-i-c-your-i-d.onrender.com/]
