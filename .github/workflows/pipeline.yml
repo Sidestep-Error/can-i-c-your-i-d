@@ -17,8 +17,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Install dependencies
         run: npm install
@@ -35,7 +35,7 @@ jobs:
           image-ref: first-pipeline:${{ github.sha }}
           format: table
           severity: CRITICAL,HIGH
-          exit-code: '1'
+          exit-code: "1"
           ignore-unfixed: true
 
   deploy:
