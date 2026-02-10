@@ -1,4 +1,4 @@
-# First Pipeline Challenge
+# First Pipeline Challenge - Silver & Gold Edition 🥈🥇
 
 ![CI/CD Pipeline](https://github.com/Sidestep-Error/can-i-c-your-i-d/actions/workflows/pipeline.yml/badge.svg)
 
