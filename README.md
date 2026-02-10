@@ -4,11 +4,11 @@
 
 Workflow: [CI/CD Pipeline](https://github.com/Sidestep-Error/can-i-c-your-i-d/actions/workflows/pipeline.yml)
 
-Live deployment: Pending (`DEPLOY_WEBHOOK_URL` not configured yet)
+Live deployment: [https://can-i-c-your-i-d.onrender.com/](https://can-i-c-your-i-d.onrender.com/)
 
 ## About
 
-Week 4 Boiler Room Hackathon - Building a complete CI/CD pipeline.
+Week 4 Boiler Room Hackathon project focused on building a complete CI/CD pipeline.
 
 ## Architecture
 
@@ -18,19 +18,63 @@ Code Push -> GitHub Actions -> Tests -> Docker Build -> Trivy Scan -> Deploy
 
 ## Implemented
 
-- Express app with `/status` health endpoint.
-- Secret objective endpoint: `GET /secret`.
-- Stable test suite for both endpoints using dynamic test port.
-- Dockerfile + docker-compose for local container run.
-- GitHub Actions pipeline with:
-  - dependency install
-  - tests
-  - Docker image build
-  - Trivy image scan
-  - deploy webhook trigger on push to `main` (when secret is set)
+- Express app with endpoints:
+  - `GET /`
+  - `GET /status`
+  - `GET /secret`
+- Test suite in `test.js` that validates `/status` and `/secret`.
+- Dynamic test port (`listen(0)`) to avoid local port conflicts.
+- Docker support:
+  - `Dockerfile`
+  - `docker-compose.yml`
+  - `.dockerignore`
+- GitHub Actions pipeline in `.github/workflows/pipeline.yml`:
+  - install dependencies
+  - run tests
+  - build Docker image
+  - scan image with Trivy
+  - optional deploy webhook trigger on push to `main`
 
-## Current Status
+## Deploy Webhook
 
-- PR merged to `main`.
-- CI pipeline configured and versioned in repository.
-- Deployment trigger configured in workflow but waiting for `DEPLOY_WEBHOOK_URL` secret.
+Set repository secret in GitHub:
+
+- Name: `DEPLOY_WEBHOOK_URL`
+- Value: webhook URL from hosting provider
+
+Deploy step runs only on push to `main` and only when the secret is set.
+
+## Local Usage
+
+Install and run:
+
+```bash
+npm install
+npm start
+```
+
+Run tests:
+
+```bash
+npm test
+```
+
+Run with Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+## Team Sync Tips
+
+When several developers work in the same repo, sync often to avoid conflicts:
+
+```bash
+git fetch origin
+git checkout main
+git pull --ff-only origin main
+git checkout <your-branch>
+git rebase main
+```
+
+If rebase conflicts appear, resolve and continue before pushing.

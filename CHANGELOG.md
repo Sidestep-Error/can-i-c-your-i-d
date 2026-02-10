@@ -8,6 +8,8 @@ All notable changes to this project are documented in this file.
 - Added `GET /secret` endpoint in `index.js` for the secret challenge objective.
 - Added `docker-compose.yml` for local container run with health check on `/status`.
 - Added `.dockerignore` to reduce Docker build context.
+- Added team sync instructions in `README.md` for multi-developer collaboration.
+- Added live deployment URL in `README.md`: `https://can-i-c-your-i-d.onrender.com/`.
 
 ### Changed
 - Renamed source files to JavaScript extension format used by npm scripts:
@@ -21,9 +23,10 @@ All notable changes to this project are documented in this file.
   - build Docker image
   - Trivy security scan
   - deploy webhook on push to `main` (when `DEPLOY_WEBHOOK_URL` secret is set)
+- Fixed deploy condition syntax in workflow to avoid GitHub Actions "Invalid workflow file" errors.
+- Updated `README.md` to reflect current implementation and deployment requirements.
 
 ### Verified
-- PR was merged to `main`.
 - `package.json` scripts match file names:
   - `start`: `node index.js`
   - `test`: `node test.js`
@@ -31,4 +34,3 @@ All notable changes to this project are documented in this file.
 
 ### Remaining Work
 - Configure `DEPLOY_WEBHOOK_URL` in GitHub repository secrets for live deployment.
-- Add final deployment URL after hosting is connected.
