@@ -34,22 +34,20 @@ app.get('/health', (req, res) => {
   });
 });
 
-// Status endpoint - enkel
-//app.get('/status', (req, res) => {
-  //res.json({
-    //status: 'ok',
-    //timestamp: new Date().toISOString()
- //});
-//});
+// Status endpoint - with secret easter egg
 app.get('/status', (req, res) => {
-  res.type('text/plain').send(`You found the secret! Well done!
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    secret: `You found the secret! Well done!
 
          ,;;;, ,;;;,
         ;;;' ';' ';;;
         ;;;       ;;;
          ';;,   ,;;'
            ';;,;;'
-             ';'` );
+             ';'`
+  });
 });
 
 
