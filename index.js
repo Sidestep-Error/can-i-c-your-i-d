@@ -139,8 +139,17 @@ if (require.main === module) {
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`Started at: ${new Date().toISOString()}`);
   });
-} else {
-  module.exports = app;
+  // Graceful shutdown for started server
+  process.on('SIGTERM', () => {
+    console.log('SIGTERM received, shutting down gracefully...');
+    if (server) {
+      server.close(() => {
+        console.log('Process terminated');
+        process.exit(0);
+      });
+    }
+  });
 }
 
+// Export app for tests
 module.exports = app;
